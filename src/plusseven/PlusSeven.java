@@ -14,8 +14,9 @@ import javax.swing.SwingUtilities;
 import plusseven.diceroller.ui.DD35DiceRoller;
 import plusseven.diceroller.ui.DiceRollerUI;
 import plusseven.dungeons.DungeonGenerator;
+import plusseven.ui.UserInterface;
 
-public class PlusSeven extends JFrame{
+public class PlusSeven extends UserInterface{
 	
 
 	//FIELDS
@@ -40,11 +41,7 @@ public class PlusSeven extends JFrame{
 	}
 	
 	public final void initUI(){
-		//Window Properties
-		setTitle("Plus Seven");
-		setSize(300,200);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		
 		//Menu Bar Setup
 		JMenuBar mainMenu = new JMenuBar();

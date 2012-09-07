@@ -15,9 +15,10 @@ import javax.swing.JTextArea;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
+import plusseven.ui.UserInterface;
 import plusseven.util.ObjectPicker;
 
-public class DungeonGenerator extends JFrame{
+public class DungeonGenerator extends UserInterface{
 	
 	//FIELDS
 	DD35Dungeon dungeon;
@@ -30,6 +31,7 @@ public class DungeonGenerator extends JFrame{
 	
 	//CONSTRUCTOR
 	public DungeonGenerator(String str) {
+		super(400, 600);
 		if (str == "D&D 3.5"){
 			initUI();
 		}
@@ -37,11 +39,6 @@ public class DungeonGenerator extends JFrame{
 	
 	//METHODS
 	private void initUI(){
-		//Window Properties
-		setTitle("Random Dungeon Room");
-		setSize(400,600);
-		//setLocationRelativeTo(null);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		//Panel Setup
 		JPanel panel = new JPanel();
