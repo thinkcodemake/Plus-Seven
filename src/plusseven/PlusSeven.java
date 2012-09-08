@@ -11,14 +11,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import plusseven.diceroller.ui.DD35DiceRoller;
-import plusseven.diceroller.ui.DiceRollerUI;
 import plusseven.dungeons.DungeonGenerator;
 import plusseven.ui.UserInterface;
+import plusseven.ui.dicerollerui.DD35DiceRoller;
+import plusseven.ui.dicerollerui.DiceRollerUI;
 
+/**
+ * The Main User Interface
+ * 
+ * @author James Dozier
+ * @version 1.0,9/1/12
+ */
 public class PlusSeven extends UserInterface{
 	
-
 	//FIELDS
 	JComboBox gameType;
 	
@@ -40,8 +45,12 @@ public class PlusSeven extends UserInterface{
         });
 	}
 	
+	/**
+	 * Setup for additional User Interface features.
+	 */
 	public final void initUI(){
-
+		//Overwrite User Interface's Default.  This now closes the whole program.
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//Menu Bar Setup
 		JMenuBar mainMenu = new JMenuBar();

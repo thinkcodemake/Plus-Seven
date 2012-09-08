@@ -2,7 +2,7 @@ package plusseven.dungeons;
 
 import java.util.Random;
 
-import plusseven.util.Instruction;
+import plusseven.interfaces.Instruction;
 import plusseven.util.ObjectPicker;
 
 public class DD35Dungeon {

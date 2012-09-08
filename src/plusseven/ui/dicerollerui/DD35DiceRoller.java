@@ -1,4 +1,4 @@
-package plusseven.diceroller.ui;
+package plusseven.ui.dicerollerui;
 
 import java.awt.GridLayout;
 
