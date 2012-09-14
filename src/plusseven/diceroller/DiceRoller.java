@@ -5,7 +5,7 @@ import java.util.Random;
 public class DiceRoller {
 	
 	//FIELDS
-	private static Random rnd = new Random();
+	private Random rnd = new Random();
 	
 	//CONSTRUCTOR
 	
@@ -16,7 +16,7 @@ public class DiceRoller {
 	 * @param size	the number of sides on the simulated die
 	 * @return		returns the result of the roll
 	 */
-	public static int rollDie(int size){
+	public int rollDie(int size){
 		return rnd.nextInt(size) + 1;
 	}
 	
@@ -27,7 +27,7 @@ public class DiceRoller {
 	 * @param size	the number of sides on the simulated die
 	 * @return		returns an array with the results rolled
 	 */
-	public static int[] rollDie(int num, int size){
+	public int[] rollDie(int num, int size){
 		int[] rolls = new int[num];
 		for (int i = 0; i < num; i++){
 			rolls[i] = rnd.nextInt(size) + 1;
@@ -41,11 +41,12 @@ public class DiceRoller {
 	 * @param rolls	an array of results from dice rolls
 	 * @return		the total of results from the rolls
 	 */
-	public static int getTotal(int[] rolls){
+	public int getTotal(int[] rolls){
 		int t = 0;
 		for (int i = 0; i < rolls.length; i++){
 			t += rolls[i];
 		}
 		return t;
 	}
+	
 }
