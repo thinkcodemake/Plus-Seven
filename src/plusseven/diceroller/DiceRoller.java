@@ -2,6 +2,12 @@ package plusseven.diceroller;
 
 import java.util.Random;
 
+/**
+ * Represents a collection of dice rolled for the DiceRoller Tool.
+ * 
+ * @author James Dozier
+ * @version 1.0, 9/7/12
+ */
 public class DiceRoller {
 	
 	//FIELDS
