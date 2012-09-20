@@ -142,6 +142,13 @@ public class DiceRollerUI extends UserInterface{
 			dicePanel.add(rollButtons[i]);
 		}
 		
+		//Fill in blanks
+		for (int i = 0; i < 7 - diceTypes.length; i++){
+			for (int j = 0; j < 5; j++){
+				dicePanel.add(new JLabel(""));
+			}
+		}
+		
 		for (int i = 0; i < 4; i++){
 			dicePanel.add(new JLabel(""));
 		}
