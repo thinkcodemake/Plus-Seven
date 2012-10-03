@@ -1,11 +1,15 @@
 package plusseven.ui.dicerollerui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,7 +34,10 @@ public class DiceRollerUI extends UserInterface{
 	
 	//FIELDS
 	DiceRoller dice;
-
+	
+	private static final int NUM_QUICK_ROLLS = 4;
+	private static final int BORDER_THICKNESS = 1;
+	private static final Color LINE_COLOR = Color.gray;
 	//Dice Fields
 	private int[] diceTypes;
 	private JCheckBox[] checkBoxes;
@@ -38,12 +45,15 @@ public class DiceRollerUI extends UserInterface{
 	private JSpinner[] modSpinners;
 	private JButton[] rollButtons;
 	private JButton multiRollButton = new JButton("Multi");
+	private JLabel[] quickLabels;
 	
 	//Results Fields
 	JTextArea results = new JTextArea(1, 20);
 
 	//CONSTRUCTOR
 	public DiceRollerUI(int[] types){
+		// 0 - 1 for 1st Quick Roll, 2 - 3 for 2nd, etc.
+		quickLabels = new JLabel[NUM_QUICK_ROLLS * 2];
 		diceTypes = types;
 		dice = new DiceRoller();
 		checkBoxes = new JCheckBox[diceTypes.length];
@@ -62,11 +72,13 @@ public class DiceRollerUI extends UserInterface{
 		//Window Properties
 		setTitle("Dice Roller");
 		setLocationRelativeTo(null);
+		setSize(650,400);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		initDice();
 		initResults();
+		initQuickRolls();
 	}
 	
 	/**
@@ -76,6 +88,7 @@ public class DiceRollerUI extends UserInterface{
 		
 		//Setup Dice Panel
 		JPanel dicePanel = new JPanel();
+		dicePanel.setBorder(BorderFactory.createLineBorder(LINE_COLOR, BORDER_THICKNESS));
 		dicePanel.setLayout(new GridLayout(0, 5, 5, 5));
 		add(dicePanel, BorderLayout.CENTER);
 		
@@ -187,6 +200,7 @@ public class DiceRollerUI extends UserInterface{
 	private void initResults(){
 		//Set up Results JPanel
 		JPanel resultsPanel = new JPanel();
+		resultsPanel.setBorder(BorderFactory.createLineBorder(LINE_COLOR, BORDER_THICKNESS));
 		resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
 		
 		//Dice Results Text Field
@@ -210,6 +224,61 @@ public class DiceRollerUI extends UserInterface{
 		
 		//Add the Results Panel to the Frame
 		add(resultsPanel, BorderLayout.LINE_END);
+	}
+	
+	/**
+	 * Sets up the Quick Roll Panel
+	 */
+	private void initQuickRolls(){
+		JPanel quickPanel = new JPanel(new GridBagLayout());
+		quickPanel.setBorder(BorderFactory.createLineBorder(LINE_COLOR, BORDER_THICKNESS));
+		add(quickPanel, BorderLayout.SOUTH);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+		
+		JLabel label = new JLabel("Description");
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		quickPanel.add(label, c);
+		
+		label = new JLabel("Dice Roll");
+		c.gridx = 3;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		quickPanel.add(label, c);
+		
+		for (int i = 0; i < NUM_QUICK_ROLLS; i++){
+			label = new JLabel(new Integer(i + 1).toString());
+			c.gridx = 0;
+			c.gridy = i + 1;
+			quickPanel.add(label, c);
+			
+			quickLabels[2 * i] = new JLabel("Quick Roll One");
+			c.gridx = 1;
+			c.gridy = i + 1;
+			c.gridwidth = 2;
+			quickPanel.add(quickLabels[2 * i], c);
+			
+			quickLabels[(2 * i) + 1] = new JLabel("Quick Roll One Breakdown");
+			c.gridx = 3;
+			c.gridy = i + 1;
+			c.gridwidth = 2;
+			quickPanel.add(quickLabels[(2 * i) + 1], c);
+			
+			JButton button = new JButton("Quick Roll");
+			c.gridx = 5;
+			c.gridy = i + 1;
+			quickPanel.add(button, c);
+			
+		}
+		
+	}
+	
+	private class QuickRoll{
+		
 	}
 	
 }

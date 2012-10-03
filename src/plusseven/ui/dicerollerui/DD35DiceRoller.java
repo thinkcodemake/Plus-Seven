@@ -29,6 +29,5 @@ public class DD35DiceRoller extends DiceRollerUI{
 	 */
 	public DD35DiceRoller(){
 		super(new int[] {20, 12, 100, 10, 8, 6, 4});
-		setSize(650,300);
 	}
 }
