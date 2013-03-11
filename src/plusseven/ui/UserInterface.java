@@ -10,6 +10,7 @@ import javax.swing.JFrame;
  * @author James Dozier
  * @version 1.0, 9/5/12
  */
+@SuppressWarnings("serial")
 public class UserInterface extends JFrame{
 	
 	//Fields

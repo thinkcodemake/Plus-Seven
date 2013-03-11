@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -22,6 +21,7 @@ import plusseven.ui.dicerollerui.DiceRollerUI;
  * @author James Dozier
  * @version 1.0,9/1/12
  */
+@SuppressWarnings("serial")
 public class PlusSeven extends UserInterface{
 	
 	//FIELDS
@@ -90,7 +90,6 @@ public class PlusSeven extends UserInterface{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				roller = new DD35DiceRoller();
 				roller.setVisible(true);
 			}

@@ -67,29 +67,23 @@ public class DiceRoller {
 	 * 				The second is the appropriate values for the dice.  Qty, sides, & modifier.
 	 * @return		Returns a String that's a summary of the rolls.
 	 */
-	public String rollAsString(int[][] dice){
+	public String rollAsString(QuickRoll diceToRoll){
 		StringBuilder roll = new StringBuilder();
 		
 		//Add the Roll #
 		roll.append("Roll Number: " + rollNum++ + "\n");
 		
 		//Add the Roll Description
-		for (int i = 0; i < dice.length; i++){
-			roll.append(dice[i][0] + "d" + dice[i][1] + (dice[i][2] == 0 ? "" : (dice[i][2] < 0 ? "" : "+")) + (dice[i][2] != 0 ? dice[i][2] : ""));
-			
-			if (i != dice.length - 1){
-				roll.append(" + ");
-			} else {
-				roll.append("\n");
-			}
-		}
+		roll.append(diceToRoll.getDescription());
+		roll.append("\n");
 		
 		//Total Initialization
 		int total = 0;
 		
 		//Results Breakdown Line
 		roll.append("(");
-		for (int i = 0; i < dice.length; i++){
+		int[][] dice = diceToRoll.getAsArray();
+		for (int i = 0; i < dice .length; i++){
 			roll.append("d" + dice[i][1] + ": ");
 			int[] results = rollDice(dice[i]);
 			for (int j = 0; j < results.length; j++){

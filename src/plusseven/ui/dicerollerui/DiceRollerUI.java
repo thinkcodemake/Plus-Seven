@@ -7,22 +7,25 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import plusseven.diceroller.DiceRoller;
 import plusseven.ui.UserInterface;
+import plusseven.diceroller.QuickRoll;
 
 /**
  * Super type for all DiceRollerUI's.
@@ -30,6 +33,7 @@ import plusseven.ui.UserInterface;
  * @author James Dozier
  * @version 1.1, 9/17/12
  */
+@SuppressWarnings("serial")
 public class DiceRollerUI extends UserInterface{
 	
 	//FIELDS
@@ -38,6 +42,10 @@ public class DiceRollerUI extends UserInterface{
 	private static final int NUM_QUICK_ROLLS = 4;
 	private static final int BORDER_THICKNESS = 1;
 	private static final Color LINE_COLOR = Color.gray;
+	
+	private JTextField saveName = new JTextField("Quick Roll Name");
+	private QuickRoll[] quickRolls = new QuickRoll[NUM_QUICK_ROLLS];
+	
 	//Dice Fields
 	private int[] diceTypes;
 	private JCheckBox[] checkBoxes;
@@ -52,6 +60,12 @@ public class DiceRollerUI extends UserInterface{
 
 	//CONSTRUCTOR
 	public DiceRollerUI(int[] types){
+		
+		//Initialize Quick Rolls
+		for (int i = 0; i < NUM_QUICK_ROLLS; i++){
+			quickRolls[i] = new QuickRoll();
+		}
+		
 		// 0 - 1 for 1st Quick Roll, 2 - 3 for 2nd, etc.
 		quickLabels = new JLabel[NUM_QUICK_ROLLS * 2];
 		diceTypes = types;
@@ -76,11 +90,54 @@ public class DiceRollerUI extends UserInterface{
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
+		initMenu();
 		initDice();
 		initResults();
 		initQuickRolls();
 	}
 	
+	/**
+	 * Initializes the Top Menu Bar
+	 */
+	private void initMenu() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu saveMenu = new JMenu("Save Quick Roll");
+		saveMenu.add(saveName);
+		//Generates list of Quick Roll Save Option based on NUM_QUICK_ROLLS
+		JMenuItem[] quickRollSaves = new JMenuItem[NUM_QUICK_ROLLS];
+		for(int i = 0; i< quickRollSaves.length; i++){
+			quickRollSaves[i] = new JMenuItem("Save Quick Roll " + (i + 1));
+			quickRollSaves[i].addActionListener(getSaveListener(i));
+			saveMenu.add(quickRollSaves[i]);
+		}
+		
+		//Adds Components
+		menuBar.add(saveMenu);
+		setJMenuBar(menuBar);
+	}
+
+	private ActionListener getSaveListener(final int i) {
+		return new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				QuickRoll quickRoll = new QuickRoll();
+				for (int i = 0; i < diceTypes.length; i++){
+					if (checkBoxes[i].isSelected()){
+						int[] die = {(Integer) qtySpinners[i].getValue(), diceTypes[i], (Integer) modSpinners[i].getValue()};
+						quickRoll.addDie(die);
+					}
+				}
+				quickRolls[i] = quickRoll;
+				quickLabels[i * 2].setText(saveName.getText());
+				quickLabels[i * 2 + 1].setText(quickRoll.getDescription());
+				saveName.setText("Quick Roll Name");
+			}
+			
+		};
+	}
+
 	/**
 	 * Initializes the Dice Information Panel
 	 */
@@ -124,20 +181,14 @@ public class DiceRollerUI extends UserInterface{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ArrayList<int[]> diceToRoll = new ArrayList<int[]>();
+				QuickRoll diceToRoll = new QuickRoll();
 				for (int i = 0; i < diceTypes.length; i++){
 					if (checkBoxes[i].isSelected()){
 						int[] die = {(Integer) qtySpinners[i].getValue(), diceTypes[i], (Integer) modSpinners[i].getValue()};
-						diceToRoll.add(die);
+						diceToRoll.addDie(die);
 					}
 				}
-				int[][] toRoll = new int[diceToRoll.size()][3];
-				for (int i = 0; i < diceToRoll.size(); i++){
-					for (int j = 0; j < 3; j++){
-						toRoll[i][j] = diceToRoll.get(i)[j];
-					}
-				}
-				results.append(dice.rollAsString(toRoll));
+				results.append(dice.rollAsString(diceToRoll));
 			}
 			
 		});
@@ -162,6 +213,7 @@ public class DiceRollerUI extends UserInterface{
 			}
 		}
 		
+		//Place Multi-Roll Button
 		for (int i = 0; i < 4; i++){
 			dicePanel.add(new JLabel(""));
 		}
@@ -181,14 +233,18 @@ public class DiceRollerUI extends UserInterface{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int[][] rollDice = new int[1][3];
+				int[] rollDice = new int[3];
 				//Number of Dice Rolled
-				rollDice[0][0] = (Integer) qtySpinners[0].getValue();
+				rollDice[0] = (Integer) qtySpinners[0].getValue();
 				//Number of Sides on the Dice Rolled
-				rollDice[0][1] = dieSize;
+				rollDice[1] = dieSize;
 				//Modifier added to the Dice Total
-				rollDice[0][2] = (Integer) modSpinners[0].getValue();
-				results.append(dice.rollAsString(rollDice));
+				rollDice[2] = (Integer) modSpinners[0].getValue();
+				
+				QuickRoll diceRoll = new QuickRoll();
+				diceRoll.addDie(rollDice);
+				
+				results.append(dice.rollAsString(diceRoll));
 			}			
 			
 		};
@@ -256,13 +312,13 @@ public class DiceRollerUI extends UserInterface{
 			c.gridy = i + 1;
 			quickPanel.add(label, c);
 			
-			quickLabels[2 * i] = new JLabel("Quick Roll One");
+			quickLabels[2 * i] = new JLabel("--");
 			c.gridx = 1;
 			c.gridy = i + 1;
 			c.gridwidth = 2;
 			quickPanel.add(quickLabels[2 * i], c);
 			
-			quickLabels[(2 * i) + 1] = new JLabel("Quick Roll One Breakdown");
+			quickLabels[(2 * i) + 1] = new JLabel("--");
 			c.gridx = 3;
 			c.gridy = i + 1;
 			c.gridwidth = 2;
@@ -271,14 +327,24 @@ public class DiceRollerUI extends UserInterface{
 			JButton button = new JButton("Quick Roll");
 			c.gridx = 5;
 			c.gridy = i + 1;
+			
+			button.addActionListener(getQuickListener(i));
+			
 			quickPanel.add(button, c);
 			
 		}
 		
 	}
 	
-	private class QuickRoll{
-		
+	private ActionListener getQuickListener(final int quickID){
+		return new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				results.append(dice.rollAsString(quickRolls[quickID]));
+			}
+			
+		};
 	}
 	
 }
