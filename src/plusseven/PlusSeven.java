@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 
 import plusseven.dungeons.DungeonGenerator;
 import plusseven.ui.UserInterface;
-import plusseven.ui.dicerollerui.DD35DiceRoller;
+import plusseven.ui.dicerollerui.PathfinderDiceRoller;
 import plusseven.ui.dicerollerui.DiceRollerUI;
 
 /**
@@ -64,7 +64,7 @@ public class PlusSeven extends UserInterface{
 		panel.setLayout(new GridLayout(4, 1, 5, 5));
 		
 		//Adding Drop Down Box for GameType
-		String[] gameNames = {"D&D 3.5", "Pathfinder"};
+		String[] gameNames = {"Pathfinder"};
 		gameType = new JComboBox(gameNames);
 		panel.add(gameType);
 		
@@ -93,10 +93,10 @@ public class PlusSeven extends UserInterface{
 				String selection = (String) gameType.getSelectedItem();
 				
 				switch(selection){
-					case "D&D 3.5": roller = new DD35DiceRoller();
+					case "D&D 3.5": roller = new PathfinderDiceRoller();
 						roller.setVisible(true);
 						break;
-					case "Pathfinder": roller = new DD35DiceRoller();
+					case "Pathfinder": roller = new PathfinderDiceRoller();
 						roller.setVisible(true);
 						break;
 					default : roller = null;

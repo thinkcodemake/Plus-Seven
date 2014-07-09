@@ -31,7 +31,7 @@ public class DungeonGenerator extends UserInterface{
 	//CONSTRUCTOR
 	public DungeonGenerator(String str) {
 		super(400, 600);
-		if (str == "D&D 3.5"){
+		if (str == "Pathfinder"){
 			initUI();
 		}
 	}
