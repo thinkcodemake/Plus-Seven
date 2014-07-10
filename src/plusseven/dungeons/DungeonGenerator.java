@@ -20,7 +20,7 @@ import plusseven.ui.UserInterface;
 public class DungeonGenerator extends UserInterface{
 	
 	//FIELDS
-	DD35Dungeon dungeon;
+	Dungeon dungeon;
 	
 	JTextArea room = new JTextArea();
 	JScrollPane scroll = new JScrollPane(room);
@@ -65,8 +65,8 @@ public class DungeonGenerator extends UserInterface{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dungeon = new DD35Dungeon((Integer)spin.getValue(), (Long)loadSeed.getValue());
-				room.setText(dungeon.getRoom());
+				dungeon = new Dungeon((Long)loadSeed.getValue());
+				room.setText(dungeon.getDungeonDescription());
 				file.setPopupMenuVisible(false);
 			}
 			
@@ -90,13 +90,13 @@ public class DungeonGenerator extends UserInterface{
 		panel.add(spin);
 		
 		//Randomizer Button
-		JButton button = new JButton("Generate Room");
+		JButton button = new JButton("Generate Dungeon");
 		button.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dungeon = new DD35Dungeon((Integer) spin.getValue());
-				room.setText(dungeon.getRoom());
+				dungeon = new Dungeon();
+				room.setText(dungeon.getDungeonDescription());
 			}
 			
 		});
